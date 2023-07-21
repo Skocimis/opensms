@@ -133,7 +133,6 @@ dist
 .gradle
 build
 admin.json
-google-services.json
 package-lock.json
 data.txt
 
