@@ -1,9 +1,13 @@
-# TextFlow Open SMS
+# TextFlow Open SMS with Add-on for receiving SMS
 An open-source solution to send SMS from your own devices using REST API. 
+
+*Note: You can only receive SMS if you set this app as your default messaging app*
 
 This option just requires a dedicated spare phone, with a sim card, and allows you to send as much SMS as you can, which could even be free if you opted in for some mobile carriers' unlimited SMS options, but be warned, some SMS carriers may limit your ability to send SMS this way, which could result even in your subscription being canceled. 
 
 You will also need a computer to host your SMS server, which can also be done on your local network. If you do not want to hassle with setting up your own server, we have a [solution at just a fraction of our normal SMS price](https://textflow.me/smsgateway). 
+
+If you follow this guide, you will be able to get a webhook to your server, every time you receive an SMS, along with just sending SMS. If you just want to send SMS with easier setup, take a look at [this branch](https://github.com/Skocimis/opensms/tree/master). 
 
 ## How it works
 
@@ -31,7 +35,7 @@ Also, you should enable USB debugging under development settings, for the device
 ## Step 2: Cloning our github repository
 
 If you are familiar with Git, you can use it to clone our [github repository](https://github.com/Skocimis/opensms). 
-If not, you can just [download our code](https://github.com/Skocimis/opensms/archive/refs/heads/master.zip). Once you have download it, just unpack the folder anywhere on your computer, and rename it from `opensms-master` to `opensms`. 
+If not, you can just [download our code](https://github.com/Skocimis/opensms/archive/refs/heads/master.zip). Once you have download it, just unpack the folder anywhere on your computer, and rename it from `opensms-ReceiveSMSAddOn` to `opensms`. 
 Either way, you will have a folder called `opensms`, and within it there will be two folders, `server` and `app`. Open your terminal (or cmd in Windows) in each of these two folders and run the following command:
 ```bash
 npm install
@@ -46,6 +50,7 @@ Once you have determined your server address and password, you will need to make
 1. In `opensms/app/App.js`, replace SERVER_ADDRESS and YOUR_SECRET with your address and password, if running on local network use address like this: `http://192.168.1.40`
 2. In `opensms/server/app.js`, do the same thing for YOUR_SECRET, in line 4
 3. In `opensms/app/android/app/src/main/java/com/textflow/smssender/MyFirebaseMessagingService.java`, replace YOUR_SECRET in line 37 with your password
+4. In `opensms/app/android/app/src/main/java/com/textflow/smssender/SendSmsWorker.java`, replace YOUR_WEBHOOK_ADDRESS with the address of your webhook and WEBHOOK_SECRET with your webhook secret. You will then receive a request similar to a request from [Receiving SMS replies](https://docs.textflow.me/receiving-sms-replies), to your webhook, with your secret in the body, along with the sender phone number and the message text every time you receive an SMS. 
 
 ## Step 4: Registering a Firebase account
 
@@ -72,6 +77,9 @@ Secondly, you have to connect your android device to your computer (the device s
 npx expo run:android
 ```
 Your android phone that you use for testing may prompt you with something, accept it. This process may take several minutes, depending on the hardware capabilities of your devices. 
+
+To test receiving SMS, you have to make your app a system default messaging app. If you are not sure how to do this, google *default sms app YOUR_PHONE_MODEL*. You also need to make sure your webhook is running, reachable and open for your SMS sending device. 
+
 If everything goes well, you should be able to see the screen that looks like this
 
 ![photo_5891140446896373807_y](https://github.com/Skocimis/opensms/assets/24946127/0ba50311-0132-4d66-9043-6cff66d29ae3)
