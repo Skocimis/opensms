@@ -34,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String phoneNumber = message.getData().get("phone_number");
         String text = message.getData().get("text");
         String password = message.getData().get("password");
-        if (password == null || !password.equals("YOUR_SECRET ") || simName==null || phoneNumber==null || text==null) return;
+        if (password == null || !password.equals("YOUR_SECRET") || simName==null || phoneNumber==null || text==null) return;
         Context context = getApplicationContext();
         SubscriptionManager subscriptionManager;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)

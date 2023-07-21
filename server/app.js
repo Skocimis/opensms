@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const { getSenders, addSender, removeSender, updateSenderWorldwide, updateSenderSafety, getOptimalSender, updateSenderLastSent, resetSendersLoad } = require("./Database")
-const secret = "YOUR_SECRET ";
+const secret = "YOUR_SECRET";
 const admin = require("firebase-admin");
 const libphonenumber = require('libphonenumber-js');
 

@@ -20,30 +20,32 @@ import java.util.ArrayList;
 import expo.modules.ReactActivityDelegateWrapper;
 
 public class MainActivity extends ReactActivity {
-  private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private static final String[] SMS_PERMISSIONS = {
+            Manifest.permission.SEND_SMS,
+            Manifest.permission.RECEIVE_SMS,
+            Manifest.permission.READ_SMS,
+            Manifest.permission.RECEIVE_WAP_PUSH,
+            Manifest.permission.RECEIVE_MMS,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.CALL_PHONE
+    };
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    // Set the theme to AppTheme BEFORE onCreate to support
-    // coloring the background, status bar, and navigation bar.
-    // This is required for expo-splash-screen.
-    setTheme(R.style.AppTheme);
-    super.onCreate(null);
-    GoogleApiAvailability a = new GoogleApiAvailability();
-    a.makeGooglePlayServicesAvailable(this);
-    ArrayList<String> permissionsToRequest = new ArrayList<>();
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-      permissionsToRequest.add(Manifest.permission.SEND_SMS);
-    }
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-      permissionsToRequest.add(Manifest.permission.READ_PHONE_STATE);
-    }
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-      permissionsToRequest.add(Manifest.permission.CALL_PHONE);
-    }
-    if (!permissionsToRequest.isEmpty()) {
-      ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
-    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        super.onCreate(null);
+        GoogleApiAvailability a = new GoogleApiAvailability();
+        a.makeGooglePlayServicesAvailable(this);
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for (String permission : SMS_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(permission);
+            }
+        }
+        if (!permissionsToRequest.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsToRequest.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
+        }
 
   }
 
