@@ -78,7 +78,7 @@ npx expo run:android
 ```
 Your android phone that you use for testing may prompt you with something, accept it. This process may take several minutes, depending on the hardware capabilities of your devices. 
 
-To test receiving SMS, you have to make your app a system default messaging app. If you are not sure how to do this, google *default sms app YOUR_PHONE_MODEL*. You also need to make sure your webhook is running, reachable and open for your SMS sending device. 
+To test receiving SMS, you have to make your app a system default messaging app. If you are not sure how to do this, google *default sms app YOUR_PHONE_MODEL*. You also need to make sure that your webhook is running, reachable and open for your SMS sending device. 
 
 If everything goes well, you should be able to see the screen that looks like this
 
