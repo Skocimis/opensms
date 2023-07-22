@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -34,10 +35,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String phoneNumber = message.getData().get("phone_number");
         String text = message.getData().get("text");
         String password = message.getData().get("password");
-        if (password == null || !password.equals("YOUR_SECRET") || simName==null || phoneNumber==null || text==null) return;
+        if (password == null || !password.equals("YOUR_SECRET") || simName == null || phoneNumber == null
+                || text == null)
+            return;
         Context context = getApplicationContext();
         SubscriptionManager subscriptionManager;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
             return;
 
         subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
@@ -52,9 +56,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (customSimSubscriptionInfo == null)
             return;
 
-        SmsManager smsManager = SmsManager.getSmsManagerForSubscriptionId(customSimSubscriptionInfo.getSubscriptionId());
-        smsManager.sendTextMessage(phoneNumber, null, text, null, null);
-        Log.d("Kurac", "From: " + phoneNumber+" "+text+" "+password);
+        SmsManager smsManager = SmsManager
+                .getSmsManagerForSubscriptionId(customSimSubscriptionInfo.getSubscriptionId());
+
+        ArrayList<String> parts = smsManager.divideMessage(text);
+
+        smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null);
     }
 
     public static String getToken(Context context) {

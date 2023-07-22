@@ -19,24 +19,25 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if(intent.getAction().equals(Telephony.Sms.Intents.SMS_DELIVER_ACTION)) {
+            String messageBody = "";
+            String sender = "";
+
             for (SmsMessage smsMessage : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                String messageBody = smsMessage.getMessageBody();
-                String sender = smsMessage.getDisplayOriginatingAddress();
+                messageBody += smsMessage.getMessageBody();
+                sender = smsMessage.getDisplayOriginatingAddress();
+            }
 
-                Toast.makeText(context, messageBody+" "+sender, Toast.LENGTH_SHORT).show();
+            if (sender.matches("^\\+?\\d+$")) {
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SendSmsWorker.class)
+                        .setInputData(new Data.Builder()
+                                .putString("sender", sender)
+                                .putString("messageBody", messageBody)
+                                .build())
+                        .setBackoffCriteria(BackoffPolicy.LINEAR, 18000, TimeUnit.SECONDS)
+                        .addTag("ASsmsSendTag")
+                        .build();
 
-                if(sender.matches("^\\+?\\d+$")) {
-                    OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SendSmsWorker.class)
-                            .setInputData(new Data.Builder()
-                                    .putString("sender", sender)
-                                    .putString("messageBody", messageBody)
-                                    .build())
-                            .setBackoffCriteria(BackoffPolicy.LINEAR, 18000, TimeUnit.SECONDS)
-                            .addTag("ASsmsSendTag")
-                            .build();
-
-                    WorkManager.getInstance(context).enqueue(workRequest);
-                }
+                WorkManager.getInstance(context).enqueue(workRequest);
             }
         }
     }

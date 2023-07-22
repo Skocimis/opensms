@@ -134,6 +134,7 @@ dist
 build
 admin.json
 package-lock.json
+google-services.json
 data.txt
 
 npm-debug.*
