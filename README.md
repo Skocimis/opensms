@@ -108,6 +108,8 @@ Finally, you can test sending SMS. To send an SMS, send the following request to
 
 If everything is working well, the message should be sent, and you will be able to see it in your SMS app. 
 
+You can find the application usage instructions [here](https://docs.textflow.me/using-sms-senders). 
+
 ## Step 6: Building the app
 
 If you want to deploy your app to your device, without being connected to it, you will need to create an APK file for installing the app on the device. This can be done by building the app, which will in turn create the installable APK file. 
