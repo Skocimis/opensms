@@ -7,7 +7,10 @@ This option just requires a dedicated spare phone, with a sim card, and allows y
 
 You will also need a computer to host your SMS server, which can also be done on your local network. If you do not want to hassle with setting up your own server, we have a [solution at just a fraction of our normal SMS price](https://textflow.me/smsgateway). 
 
-If you follow this guide, you will be able to get a webhook to your server, every time you receive an SMS, along with just sending SMS. If you just want to send SMS with easier setup, take a look at [this branch](https://github.com/Skocimis/opensms/tree/master). 
+If you follow this guide, you will be able to get a webhook to your server, every time you receive an SMS, along with just sending SMS. If you just want to send SMS with easier setup, take a look at [this branch](https://github.com/Skocimis/opensms/tree/master).
+
+> **Warning**
+> Our solution does not guarantee you that carrier will allow you to send bulk automated messages, since it is a part of your own agreement with your carrier. We recommend you you take a look at your carrier's usage policy before deciding to use this solution. 
 
 ## How it works
 
